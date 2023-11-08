@@ -1,0 +1,24 @@
+//this code will run on python online compiler
+
+
+
+class TokenBucket:
+    def _init_(self, capacity, rate):
+        self.capacity = capacity  # Maximum number of tokens the bucket can hold
+        self.tokens = capacity    # Current number of tokens in the bucket
+        self.rate = rate          # Rate at which tokens are added per second
+        self.last_refill_time = time.time()  # Initialize last refill time
+
+    def refill(self):
+        now = time.time()
+        elapsed_time = now - self.last_refill_time
+        tokens_to_add = elapsed_time * self.rate
+        self.tokens = min(self.capacity, self.tokens + tokens_to_add)
+        self.last_refill_time = now
+
+    def consume(self, tokens):
+        if tokens <= self.tokens:
+            self.tokens -= tokens
+            return True
+        else:
+            return False
